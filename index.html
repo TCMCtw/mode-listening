@@ -105,7 +105,8 @@ let AC,cur=null,root=60,n=0,ok=0,locked=false,timers=[],nodes=[];
 const $=id=>document.getElementById(id);
 function LIST(){let l=LV[+$("lv").value];if($("dir").value!=="up")l=l.filter(i=>i<7);return l}
 let UN=false;
-function unlock(){if(UN)return;UN=true;try{const w="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=";const a=new Audio(w);a.loop=false;a.play().catch(()=>{})}catch(e){}}
+var CH=null;function cheer(){try{if(CH){CH.pause();CH.currentTime=0;CH.volume=1;var p=CH.play();if(p&&p.catch)p.catch(function(){})}}catch(e){}}function unCheer(){try{if(CH)CH.pause()}catch(e){}}
+function unlock(){if(UN)return;UN=true;try{CH=new Audio("cheer.m4a");CH.preload="auto";CH.load()}catch(e){}try{const w="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=";const a=new Audio(w);a.loop=false;a.play().catch(()=>{})}catch(e){}}
 function ctx(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C){$("fb").textContent="此瀏覽器不支援網頁發聲，請改用 Safari 或 Chrome 開啟。 This browser cannot play web audio. Please use Safari or Chrome.";throw new Error("noaudio")}AC=new C()}
 if(AC.state!=="running"){try{AC.resume()}catch(e){}}return AC}
 function hz(m){return 440*Math.pow(2,(m-69)/12)}
@@ -139,7 +140,7 @@ if(b)b.className="ans "+(right?"ok":"bad");
 let msg=(right?"✔ 答對了！Correct!":(i<0?"✘ 略過算答錯，正確是 Skipped, counts as wrong. The answer is <b>":"✘ 答錯了，正確是 Wrong. The answer is <b>")+cur.n+"</b>")+"<br><b>"+cur.n+"</b>：母大調唱名 Parent-major solfege: "+cur.t+"<br>"+cur.d+"<br><span style=\"color:var(--muted)\">"+cur.e+"</span>";
 $("s").textContent="答對 "+ok+" / "+n+" · Correct "+ok+" / "+n;$("play").disabled=false;
 if(isQ()){if(n>=15){QZ.done=true;[...$("ans").children].forEach(x=>x.disabled=true);$("cf").style.display="none";const v=ok>=15?"🎉🎉🎉 滿分！全對！你的耳朵根本是調式雷達，全班請你喝飲料！🥳🎶<br>Full marks! Your ears are a mode radar. The whole class buys you a drink!":ok>=14?"🎊 14 分！只差一題就滿分，耳朵超強！<br>14! One short of perfect. Great ears!":ok>=13?"👏 13 分！很穩，調式幾乎都聽得出來！<br>13! Solid. You hear almost every mode.":ok>=10?"✅ 及格了！再多聽幾次會更穩。<br>Passed! A few more listens will make it steadier.":"💪 還差一點（10 分及格），回練習模式多聽幾次再來挑戰！<br>Almost (10 to pass). Go back to practice mode and try again.";
-msg+='<hr><b>測驗結束：對 '+ok+' / 15 · Quiz over: '+ok+' / 15 correct</b><br>'+v;$("play").textContent="↻ 再測一次 · Take the quiz again";$("again").disabled=true}else $("play").textContent="▶ 下一題 · Next"}
+msg+='<hr><b>測驗結束：對 '+ok+' / 15 · Quiz over: '+ok+' / 15 correct</b><br>'+v;if(ok>=13)cheer();$("play").textContent="↻ 再測一次 · Take the quiz again";$("again").disabled=true}else $("play").textContent="▶ 下一題 · Next"}
 else $("play").textContent="▶ 下一題（播放音階）· Next (play scale)";
 $("fb").innerHTML=msg}
 function safe(f){return function(){try{f()}catch(e){if(e.message!=="noaudio")$("fb").textContent="發生錯誤 Error: "+e.message}}}
@@ -147,6 +148,6 @@ $("cf1").onclick=safe(()=>{if(!QZ||QZ.done||locked)return;$("cf").style.display=
 $("play").onclick=safe(next);$("again").onclick=safe(()=>{if(isQ()&&QZ&&QZ.done)return;play()});
 $("hint").style.display="none";
 setInterval(()=>{if(AC&&AC.state==="suspended"){try{AC.resume()}catch(e){}}},500);
-function reset(){$("cf").style.display="none";cur=null;n=0;ok=0;QZ=null;$("q").textContent=isQ()?"第 0 / 15 題 · Question 0 / 15":"練習中・第 0 題 · Practice, question 0";$("s").textContent="答對 0 / 0 · Correct 0 / 0";$("ans").innerHTML="";$("again").disabled=true;$("play").disabled=false;$("play").textContent=isQ()?"▶ 開始測驗 · Start quiz":"▶ 下一題（播放音階）· Next (play scale)";stop();$("fb").innerHTML=isQ()?"15 題，答完顯示成績。按「開始測驗」。<br>15 questions; your score shows at the end. Press Start quiz.":"按「下一題」開始。<br>Press Next to start."}
+function reset(){unCheer();$("cf").style.display="none";cur=null;n=0;ok=0;QZ=null;$("q").textContent=isQ()?"第 0 / 15 題 · Question 0 / 15":"練習中・第 0 題 · Practice, question 0";$("s").textContent="答對 0 / 0 · Correct 0 / 0";$("ans").innerHTML="";$("again").disabled=true;$("play").disabled=false;$("play").textContent=isQ()?"▶ 開始測驗 · Start quiz":"▶ 下一題（播放音階）· Next (play scale)";stop();$("fb").innerHTML=isQ()?"15 題，答完顯示成績。按「開始測驗」。<br>15 questions; your score shows at the end. Press Start quiz.":"按「下一題」開始。<br>Press Next to start."}
 ["lv","dir","md"].forEach(k=>$(k).onchange=reset);
 </script></body></html>
