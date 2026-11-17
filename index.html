@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>調式聽音練習｜TCMC</title>
+<style>
+  :root{--charcoal:#2E3A3F;--teal:#0B6E6E;--teal-bright:#2FBFAA;--gold:#E8A33D;--green:#33D17A;--amber:#F2B84B;--paper:#EAF2F1;--muted:#8FA3A0;--danger:#E2685A;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:radial-gradient(1200px 600px at 20% -10%, #33424A 0%, var(--charcoal) 55%, #232C30 100%);color:var(--paper);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;min-height:100vh;}
+  .wrap{max-width:640px;margin:0 auto;padding:28px 18px 60px;}
+  header{margin-bottom:22px;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--teal-bright);font-weight:700;text-transform:uppercase;margin-bottom:6px;}
+  h1{font-family:"Noto Serif TC",serif;font-size:clamp(24px,4vw,32px);margin:0 0 6px;font-weight:700;color:#fff;letter-spacing:.02em;}
+  .sub{color:var(--muted);font-size:14px;line-height:1.6;}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));border:1px solid rgba(234,242,241,0.09);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
+  .card h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:700;}
+  label{display:block;margin:10px 0 0;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.03em}
+  label.chk{color:var(--paper);font-weight:500;font-size:14px;display:flex;align-items:center;gap:8px}
+  input[type=checkbox]{accent-color:var(--teal-bright);width:17px;height:17px}
+  select{display:block;width:100%;margin-top:5px;padding:11px 12px;border-radius:10px;border:1.5px solid rgba(234,242,241,0.15);background:rgba(255,255,255,0.04);color:var(--paper);font-size:14.5px;font-weight:600;font-family:inherit;max-width:100%}
+  select option{background:#2E3A3F;color:#EAF2F1}
+  select:focus{outline:none;border-color:var(--teal-bright)}
+  button{font-family:inherit;cursor:pointer;transition:transform .1s ease, opacity .15s ease, background .15s ease;width:100%;margin:6px 0 0;padding:12px 20px;border-radius:10px;border:none;font-size:14.5px;font-weight:700;letter-spacing:.02em;background:var(--teal-bright);color:#0d1f1d}
+  button:active{transform:scale(0.97)}
+  button:disabled{opacity:.35;cursor:not-allowed}
+  button.sec{background:rgba(255,255,255,0.06);color:var(--paper);border:1px solid rgba(234,242,241,0.18)}
+  #ans{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
+  #ans:empty{display:none}
+  button.ans{margin:0;text-align:left;background:rgba(255,255,255,0.02);color:var(--paper);border:1.5px solid rgba(234,242,241,0.13);font-weight:600;padding:12px 14px}
+  button.ans:hover:not(:disabled){border-color:var(--teal-bright)}
+  button.ans:disabled{opacity:1;cursor:default}
+  button.ans.ok{background:rgba(51,209,122,0.16);border-color:var(--green);color:#fff;box-shadow:0 0 0 1px rgba(51,209,122,0.3) inset}
+  button.ans.bad{background:rgba(226,104,90,0.18);border-color:var(--danger);color:#fff;box-shadow:0 0 0 1px rgba(226,104,90,0.3) inset}
+  .sc{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);margin-bottom:4px}
+  #q{color:var(--paper);font-weight:700;font-size:15px}
+  #s b,#s{font-weight:600}
+  #fb{font-size:13.5px;line-height:1.7;color:var(--paper);background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 12px;margin:12px 0 0;border-left:3px solid var(--teal-bright);min-height:40px}
+  #fb b{color:#fff}
+  #fb hr{border:none;border-top:1px solid rgba(234,242,241,0.15);margin:8px 0}
+  #cf{display:none;background:rgba(232,163,61,0.12);border:1px solid rgba(232,163,61,0.35);border-radius:10px;padding:12px;margin:10px 0 0;font-size:14px}
+  #cf button.sec{margin-top:6px}
+  #hint{background:rgba(232,163,61,0.14);border:1px solid rgba(232,163,61,0.35);color:var(--paper);font-size:13px;line-height:1.6}
+  .en{display:block;color:var(--muted);font-weight:400;font-size:.82em;letter-spacing:0;text-transform:none;margin-top:2px}
+  h1 .en{font-size:13px;letter-spacing:.14em;font-weight:500;color:var(--teal-bright);text-transform:uppercase}
+  label .en{display:inline;margin-left:6px;font-size:.9em}
+  button .en{display:block;font-size:.78em;opacity:.8}
+  footer{margin-top:26px;font-size:12px;color:var(--muted);text-align:center;line-height:1.8;}
+  footer a{color:var(--teal-bright);}
+  @media (max-width:640px){.wrap{padding:14px 10px 32px}.card{padding:12px 14px;margin-bottom:10px}h1{font-size:20px}.sub{font-size:12.5px}button{padding:10px 14px;font-size:13.5px}}
+</style></head><body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">TCMC · 調式 Modes</div>
+    <h1>調式聽音練習<span class="en">Mode Listening Practice</span></h1>
+    <div class="sub">播一條音階，聽出是哪個調式。答錯會用唱名說明和大調差在哪幾個音。<br>Hear a scale and name the mode. A wrong answer shows the solfege and how the mode differs from major.</div>
+  </header>
+  <div class="card" id="hint">⚠ 如果按鈕沒反應：請用網址在 Safari / LINE 瀏覽器開啟，不要用檔案預覽。若沒聲音，請關閉手機靜音鍵、調大音量。<br>If buttons do nothing, open the link in Safari or the LINE browser, not a file preview. If there is no sound, turn off silent mode and raise the volume.</div>
+<div class="card">
+<h2>設定 Settings</h2>
+<label>模式 Mode
+<select id="md"><option value="p" selected>練習（無限題）Practice (unlimited)</option><option value="q">測驗（15 題計分）Quiz (15 questions, scored)</option></select></label>
+<label>難度 Level
+<select id="lv">
+<option value="0" selected>第一階：七個調式 · Level 1</option>
+<option value="1">進階：七個調式＋和聲小調、旋律小調 · Advanced</option>
+</select><span class="en" style="display:block;margin:4px 0 0">Level 1 is the seven modes. Advanced adds harmonic and melodic minor (ascending only).</span></label>
+<label>起始音 Starting note
+<select id="rt"><option value="c">固定 C · Always C</option><option value="r" selected>每題隨機 · Random each question</option></select></label>
+<label>方向 Direction
+<select id="dir"><option value="up">上行 · Ascending</option><option value="down">下行 · Descending</option><option value="both">上行再下行 · Up then down</option></select></label>
+<label class="chk" style="margin-top:14px"><input type="checkbox" id="dr" checked> 播放主音持續音（幫助聽出主音）· Play a tonic drone (helps you hear the tonic)</label>
+<label>速度 Speed
+<select id="sp"><option value="0.7">慢 · Slow</option><option value="0.5" selected>中 · Medium</option><option value="0.35">快 · Fast</option></select></label>
+</div>
+<div class="card">
+<h2>題目 Question</h2>
+<div class="sc"><span id="q">練習中・第 0 題 · Practice, question 0</span><span id="s">答對 0 / 0 · Correct 0 / 0</span></div>
+<button id="play">▶ 下一題（播放音階）· Next (play scale)</button>
+<button id="again" class="sec" disabled>↻ 再聽一次 · Listen again</button>
+<div id="cf" style="display:none"><div style="margin-bottom:6px">跳過算答錯，要再聽一次嗎？<br>Skipping counts as wrong. Listen again instead?</div><button id="cf1">再聽一次 · Listen again</button><button id="cf2" class="sec">確定跳過 · Skip</button></div>
+<div id="fb">按「下一題」開始。<br>Press Next to start.</div>
+<div id="ans"></div>
+<button id="nx" style="display:none">下一題 · Next</button>
+</div>
+
+  <footer>
+    <span>調式聽音練習 Mode Listening Practice</span><br>
+    <span>台灣合唱音樂中心 TCMC 製作 · © 2026 朱元雷 Ray Chu · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hant" style="color:inherit">CC BY-NC 4.0</a></span>
+  </footer>
+</div>
+
+<script>
+const M=[
+{n:"Ionian 大調",s:[0,2,4,5,7,9,11],t:"do re mi fa sol la ti do",d:"大調，沒有任何變化音。",e:"The major scale, no altered notes."},
+{n:"Dorian 多里安",s:[0,2,3,5,7,9,10],t:"re mi fa sol la ti do re",d:"第 3、7 音降半音；或自然小調的第 6 音升高半音。",e:"3rd and 7th degrees lowered a half step; or natural minor with the 6th raised."},
+{n:"Phrygian 弗里吉安",s:[0,1,3,5,7,8,10],t:"mi fa sol la ti do re mi",d:"自然小調再降第 2 音，開頭是半音，西班牙色彩。",e:"Natural minor with the 2nd lowered. It opens with a half step, a Spanish colour."},
+{n:"Lydian 利底安",s:[0,2,4,6,7,9,11],t:"fa sol la ti do re mi fa",d:"大調第 4 音升高半音，明亮飄浮。",e:"Major with the 4th raised a half step. Bright and floating."},
+{n:"Mixolydian 米索利底安",s:[0,2,4,5,7,9,10],t:"sol la ti do re mi fa sol",d:"大調第 7 音降半音，搖滾、藍調感。",e:"Major with the 7th lowered a half step. A rock and blues feel."},
+{n:"Aeolian 自然小調",s:[0,2,3,5,7,8,10],t:"la ti do re mi fa sol la",d:"自然小調：第 3、6、7 音降半音。",e:"Natural minor: 3rd, 6th and 7th degrees lowered."},
+{n:"Locrian 洛克里安",s:[0,1,3,5,6,8,10],t:"ti do re mi fa sol la ti",d:"Phrygian 再降第 5 音，不穩定，主和弦是減三和弦。",e:"Phrygian with the 5th lowered too. Unstable; the tonic chord is diminished."},
+{n:"Harmonic minor 和聲小調",s:[0,2,3,5,7,8,11],t:"la ti do re mi fa ♯sol la",d:"自然小調第 7 音升高半音，第 6 到第 7 音有增二度。",e:"Natural minor with the 7th raised. There is an augmented second from the 6th to the 7th degree."},
+{n:"Melodic minor 旋律小調（上行）",s:[0,2,3,5,7,9,11],t:"la ti do re mi ♯fa ♯sol la",d:"大調第 3 音降半音，或 Dorian 第 7 音升高半音。",e:"Major with the 3rd lowered, or Dorian with the 7th raised."}];
+const LV=[[0,1,2,3,4,5,6],[0,1,2,3,4,5,6,7,8]];
+let AC,cur=null,root=60,n=0,ok=0,locked=false,timers=[],nodes=[];
+const $=id=>document.getElementById(id);
+function LIST(){let l=LV[+$("lv").value];if($("dir").value!=="up")l=l.filter(i=>i<7);return l}
+let UN=false;
+function unlock(){if(UN)return;UN=true;try{const w="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=";const a=new Audio(w);a.loop=false;a.play().catch(()=>{})}catch(e){}}
+function ctx(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C){$("fb").textContent="此瀏覽器不支援網頁發聲，請改用 Safari 或 Chrome 開啟。 This browser cannot play web audio. Please use Safari or Chrome.";throw new Error("noaudio")}AC=new C()}
+if(AC.state!=="running"){try{AC.resume()}catch(e){}}return AC}
+function hz(m){return 440*Math.pow(2,(m-69)/12)}
+function tone(m,t,len,vol,type){const a=ctx(),o=a.createOscillator(),g=a.createGain();o.type=type||"triangle";o.frequency.value=hz(m);
+g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+0.02);g.gain.setValueAtTime(vol,t+len-0.08);g.gain.linearRampToValueAtTime(0,t+len);
+o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+len+0.02);nodes.push(o);}
+function seq(){const sc=cur.s.map(x=>root+x).concat(root+12);let a=sc.slice();
+const d=$("dir").value;if(d==="down")a.reverse();if(d==="both")a=a.concat(sc.slice(0,7).reverse());return a}
+function play(){unlock();const a=ctx();stop();const step=+$("sp").value,notes=seq(),t0=a.currentTime+0.15;
+notes.forEach((m,i)=>tone(m,t0+i*step,step*0.95,0.28));
+if($("dr").checked)tone(root-12,t0,notes.length*step,0.16,"sine");}
+function stop(){nodes.forEach(o=>{try{o.stop()}catch(e){}});nodes=[]}
+function build(){const L=LIST();$("ans").innerHTML="";L.forEach(i=>{const b=document.createElement("button");b.className="ans";b.textContent=M[i].n;b.onclick=()=>pick(i,b);$("ans").appendChild(b)})}
+let QZ=null;
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function rnd(L,prev){let c=L.filter(i=>i!==prev);if(!c.length)c=L;return c[Math.floor(Math.random()*c.length)]}
+function quizSeq(L){const seq=[];let prev=-1;for(let k=0;k<10;k++){prev=rnd(L,prev);seq.push(prev)}
+let miss=shuf(L.filter(i=>!seq.includes(i)));miss=miss.slice(0,5);
+const out=miss.slice();prev=out.length?out[out.length-1]:seq[9];
+while(out.length<5){prev=rnd(L,prev);out.push(prev)}
+return seq.concat(out)}
+function isQ(){return $("md").value==="q"}
+function next(){const L=LIST();let i;
+if(isQ()){if(QZ&&!QZ.done&&!locked&&n>0){$("cf").style.display="block";return}if(!QZ||QZ.done){QZ={seq:quizSeq(L),done:false};n=0;ok=0;$("s").textContent="答對 0 / 0 · Correct 0 / 0"}i=QZ.seq[n];}
+else{do{i=L[Math.floor(Math.random()*L.length)]}while(L.length>1&&cur===M[i]&&Math.random()<.8)}
+cur=M[i];root=$("rt").value==="c"?60:55+Math.floor(Math.random()*12);if(root>66)root-=12;
+locked=false;n++;build();$("q").textContent=isQ()?"第 "+n+" / 15 題 · Question "+n+" / 15":"練習中・第 "+n+" 題 · Practice, question "+n;$("fb").textContent="聽完後選答案。 Listen, then pick an answer.";$("again").disabled=false;$("play").textContent=isQ()?"跳過（算答錯）· Skip (counts as wrong)":"▶ 跳過，換下一題 · Skip to next";play();}
+function pick(i,b){if(locked||(QZ&&QZ.done&&isQ()))return;locked=true;$("cf").style.display="none";const right=i>=0&&M[i]===cur;if(right)ok++;
+if(b)b.className="ans "+(right?"ok":"bad");
+[...$("ans").children].forEach((x,k)=>{if(LIST()[k]===M.indexOf(cur))x.className="ans ok"});
+let msg=(right?"✔ 答對了！Correct!":(i<0?"✘ 略過算答錯，正確是 Skipped, counts as wrong. The answer is <b>":"✘ 答錯了，正確是 Wrong. The answer is <b>")+cur.n+"</b>")+"<br><b>"+cur.n+"</b>：母大調唱名 Parent-major solfege: "+cur.t+"<br>"+cur.d+"<br><span style=\"color:var(--muted)\">"+cur.e+"</span>";
+$("s").textContent="答對 "+ok+" / "+n+" · Correct "+ok+" / "+n;$("play").disabled=false;
+if(isQ()){if(n>=15){QZ.done=true;[...$("ans").children].forEach(x=>x.disabled=true);$("cf").style.display="none";const v=ok>=15?"🎉🎉🎉 滿分！全對！你的耳朵根本是調式雷達，全班請你喝飲料！🥳🎶<br>Full marks! Your ears are a mode radar. The whole class buys you a drink!":ok>=14?"🎊 14 分！只差一題就滿分，耳朵超強！<br>14! One short of perfect. Great ears!":ok>=13?"👏 13 分！很穩，調式幾乎都聽得出來！<br>13! Solid. You hear almost every mode.":ok>=10?"✅ 及格了！再多聽幾次會更穩。<br>Passed! A few more listens will make it steadier.":"💪 還差一點（10 分及格），回練習模式多聽幾次再來挑戰！<br>Almost (10 to pass). Go back to practice mode and try again.";
+msg+='<hr><b>測驗結束：對 '+ok+' / 15 · Quiz over: '+ok+' / 15 correct</b><br>'+v;$("play").textContent="↻ 再測一次 · Take the quiz again";$("again").disabled=true}else $("play").textContent="▶ 下一題 · Next"}
+else $("play").textContent="▶ 下一題（播放音階）· Next (play scale)";
+$("fb").innerHTML=msg}
+function safe(f){return function(){try{f()}catch(e){if(e.message!=="noaudio")$("fb").textContent="發生錯誤 Error: "+e.message}}}
+$("cf1").onclick=safe(()=>{if(!QZ||QZ.done||locked)return;$("cf").style.display="none";play()});$("cf2").onclick=safe(()=>{if(!QZ||QZ.done||locked)return;$("cf").style.display="none";pick(-1,null)});
+$("play").onclick=safe(next);$("again").onclick=safe(()=>{if(isQ()&&QZ&&QZ.done)return;play()});
+$("hint").style.display="none";
+setInterval(()=>{if(AC&&AC.state==="suspended"){try{AC.resume()}catch(e){}}},500);
+function reset(){$("cf").style.display="none";cur=null;n=0;ok=0;QZ=null;$("q").textContent=isQ()?"第 0 / 15 題 · Question 0 / 15":"練習中・第 0 題 · Practice, question 0";$("s").textContent="答對 0 / 0 · Correct 0 / 0";$("ans").innerHTML="";$("again").disabled=true;$("play").disabled=false;$("play").textContent=isQ()?"▶ 開始測驗 · Start quiz":"▶ 下一題（播放音階）· Next (play scale)";stop();$("fb").innerHTML=isQ()?"15 題，答完顯示成績。按「開始測驗」。<br>15 questions; your score shows at the end. Press Start quiz.":"按「下一題」開始。<br>Press Next to start."}
+["lv","dir","md"].forEach(k=>$(k).onchange=reset);
+</script></body></html>
